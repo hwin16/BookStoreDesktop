@@ -1,9 +1,15 @@
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 import user.ManageBooks;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader; 
 import java.io.IOException; 
-public class Menu { 
+public class Menu {
+    private static SessionFactory factory = new Configuration().configure().buildSessionFactory();
     // main menu
     // will load on every page
     public static void checkoutbookdb() {
@@ -88,6 +94,20 @@ public class Menu {
                 if (ubook == 1){
 
                 }
+            }
+            else if (bchoice == 3){
+                String title = reader.readLine();
+
+                Session session = factory.openSession();
+                Transaction t = null;
+                t = session.beginTransaction();
+                int book_id = (int)session.createQuery("select book_id from Book where owner = :username and title like :title")
+                                .setString("username", username)
+                                .setString("title", title).uniqueResult();
+                mb.deleteBooks(book_id);
+            }
+            else {
+
             }
         }
         printlnHorizontal();

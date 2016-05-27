@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="datamodels.People" table="people">
+        <meta attribute="class-description">
+            This class represents the people information.
+        </meta>
+        <id name="people_id" type="int" column="people_id">
+            <generator class="native"/>
+        </id>
+        <property name="firstname" column="firstname" type="string"/>
+        <property name="lastname" column="lastname" type="string"/>
+    </class>
+</hibernate-mapping>
