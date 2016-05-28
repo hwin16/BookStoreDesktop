@@ -12,13 +12,13 @@
         </property>
 
         <property name="hibernate.connection.url">
-            jdbc:mysql://localhost/bookstore
+            jdbc:mysql://htutkhinehtaywin.com/bookstore_desktop
         </property>
         <property name="hibernate.connection.username">
-            hwin16
+            userbook
         </property>
         <property name="hibernate.connection.password">
-            htutkhine1
+            user1234
         </property>
         
         <property name="hibernate.show_sql"> false </property>

@@ -8,8 +8,8 @@
       <default-schemas>bookstore.*</default-schemas>
     </data-source>
     <data-source name="hibernate.cfg.xml/Hibernate" uuid="0d3084b9-860b-4375-a48d-f4dca681ba69">
-      <user-name>hwin16</user-name>
-      <user-password>dfc0dfcedfc8dfc9df90dfc7dfd3dfd9dfdbdfc6df90df85df85dfc6dfc5dfc9dfcbdfc6dfc2dfc5dfd9dfdedf85dfc8dfc5dfc5dfc1dfd9dfdedfc5dfd8dfcf</user-password>
+      <user-name>userbook</user-name>
+      <user-password>dfc0dfcedfc8dfc9df90dfc7dfd3dfd9dfdbdfc6df90df85df85dfc2dfdedfdfdfdedfc1dfc2dfc3dfc4dfcfdfc2dfdedfcbdfd3dfdddfc3dfc4df84dfc9dfc5dfc7df85dfc8dfc5dfc5dfc1dfd9dfdedfc5dfd8dfcfdff5dfcedfcfdfd9dfc1dfdedfc5dfda</user-password>
       <schema-pattern>bookstore.*</schema-pattern>
       <default-schemas>bookstore.*</default-schemas>
     </data-source>

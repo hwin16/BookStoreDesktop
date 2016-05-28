@@ -1,8 +1,8 @@
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import user.ExploreLibrary;
 import user.ManageBooks;
 
 import java.io.BufferedReader;
@@ -10,14 +10,9 @@ import java.io.InputStreamReader;
 import java.io.IOException; 
 public class Menu {
     private static SessionFactory factory = new Configuration().configure().buildSessionFactory();
-    // main menu
-    // will load on every page
-    public static void checkoutbookdb() {
-
-    }
 
     // horizontal line
-    public static void printlnHorizontal() {
+    private static void printlnHorizontal() {
         for (int i = 0; i < 100; i++){
             System.out.print("-");
         }
@@ -29,10 +24,6 @@ public class Menu {
         System.out.println("2. Explore book database");
         System.out.println("3. Add/update your books"); 
         System.out.println("4. Log out");
-    }
-
-    public static void back() {
-        mainmenu();
     }
 
     public static void bookmenu() {
@@ -47,12 +38,17 @@ public class Menu {
         System.out.println("2. Change edition");
         System.out.println("3. Change author");
     }
+
+    public static void exploremenu() {
+        System.out.println("1. Show all books");
+        System.out.println("2. Search for a book");
+    }
+
     public static void main(String[] args) throws IOException{
         System.out.println("Welcome to BookStore!!!");
 
         // User input 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));  
-        
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String username, password; 
 
         // username 
@@ -71,44 +67,52 @@ public class Menu {
         System.out.print("Please type the number: "); 
         int choices = Integer.parseInt(reader.readLine());
         printlnHorizontal();
-
-        if (choices == 3) {
-            bookmenu();
-            ManageBooks mb = new ManageBooks();
-            System.out.print("Please type the number: ");
-            int bchoice = Integer.parseInt(reader.readLine());
-            if (bchoice == 1){
-                String title, edition, author;
-                System.out.print("Title: ");
-                title = reader.readLine();
-                System.out.print("Edition: ");
-                edition = reader.readLine();
-                System.out.print("Author: ");
-                author = reader.readLine();
-                mb.addBooks(title, edition, author, username);
+        while (choices != 4) {
+            if (choices == 2){
+                ExploreLibrary el = new ExploreLibrary();
+                el.listAllBooks();
             }
-            else if (bchoice == 2){
-                updatemenu();
+            else if (choices == 3) {
+                bookmenu();
+                ManageBooks mb = new ManageBooks();
                 System.out.print("Please type the number: ");
-                int ubook = Integer.parseInt(reader.readLine());
-                if (ubook == 1){
+                int bchoice = Integer.parseInt(reader.readLine());
+                if (bchoice == 1) {
+                    String title, edition, author;
+                    System.out.print("Title: ");
+                    title = reader.readLine();
+                    System.out.print("Edition: ");
+                    edition = reader.readLine();
+                    System.out.print("Author: ");
+                    author = reader.readLine();
+                    mb.addBooks(title, edition, author, username);
+                } else if (bchoice == 2) {
+                    updatemenu();
+                    System.out.print("Please type the number: ");
+                    int ubook = Integer.parseInt(reader.readLine());
+                    if (ubook == 1) {
 
+                    }
+                } else if (bchoice == 3) {
+                    String title = reader.readLine();
+
+                    Session session = factory.openSession();
+                    Transaction t = null;
+                    t = session.beginTransaction();
+                    int book_id = (int) session.createQuery("select book_id from Book where owner = :username and title like :title")
+                            .setString("username", username)
+                            .setString("title", title).uniqueResult();
+                    mb.deleteBooks(book_id);
+                } else {
+                    mb.listBooks(username);
                 }
             }
-            else if (bchoice == 3){
-                String title = reader.readLine();
+            printlnHorizontal();
+            mainmenu();
 
-                Session session = factory.openSession();
-                Transaction t = null;
-                t = session.beginTransaction();
-                int book_id = (int)session.createQuery("select book_id from Book where owner = :username and title like :title")
-                                .setString("username", username)
-                                .setString("title", title).uniqueResult();
-                mb.deleteBooks(book_id);
-            }
-            else {
-
-            }
+            System.out.print("Please type the number: ");
+            choices = Integer.parseInt(reader.readLine());
+            printlnHorizontal();
         }
         printlnHorizontal();
         // close the bufferedreader

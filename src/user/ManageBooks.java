@@ -70,19 +70,25 @@ public class ManageBooks {
         }
     }
 
-    // list books from all the database
-    public void listBooks() {
+    private void tabularlistBooks(List books){
+        System.out.format("+%40s+%20s+%20s+\n", "-", "-", "-");
+        System.out.format("|%40s|%20s|%20s|\n", "Title", "Edition", "Author");
+        System.out.format("+%40s+%20s+%20s+\n", "-", "-", "-");
+        for (Iterator i = books.iterator(); i.hasNext();){
+            Book book = (Book) i.next();
+            System.out.format("|%40s|%20s|%20s|\n", book.getTitle(), book.getEdition(), book.getAuthor());
+        }
+        System.out.format("+%40s+%20s+%20s+", "-", "-", "-");
+    }
+
+    // list all of my books
+    public void listBooks(String username) {
         Session session = factory.openSession();
         Transaction t = null;
         try {
             t = session.beginTransaction();
-            List books = session.createQuery("FROM Book").list();
-            for (Iterator i = books.iterator(); i.hasNext(); ) {
-                Book book = (Book) i.next();
-                System.out.print("Title: " + book.getTitle() + " ");
-                System.out.print("Edition: " + book.getEdition() + " ");
-                System.out.print("Author: " + book.getAuthor() + " ");
-            }
+            List books = session.createQuery("FROM Book where owner = :owner").setParameter("owner", username).list();
+            tabularlistBooks(books);
             t.commit();
         } catch (HibernateException e) {
             if (t != null) t.rollback();

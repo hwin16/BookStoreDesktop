@@ -58,44 +58,61 @@
       <schema id="1" name="bookstore"/>
       <table id="2" parent="1" name="book"/>
       <table id="3" parent="1" name="people"/>
-      <column id="4" parent="2" name="book_id">
+      <table id="4" parent="1" name="user"/>
+      <column id="5" parent="2" name="book_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="5" parent="2" name="title">
+      <column id="6" parent="2" name="title">
         <mandatory>1</mandatory>
         <data-type>varchar(50)</data-type>
       </column>
-      <column id="6" parent="2" name="edition">
+      <column id="7" parent="2" name="edition">
         <data-type>varchar(20)</data-type>
       </column>
-      <column id="7" parent="2" name="author">
+      <column id="8" parent="2" name="author">
         <mandatory>1</mandatory>
         <data-type>varchar(20)</data-type>
       </column>
-      <column id="8" parent="2" name="owner">
+      <column id="9" parent="2" name="owner">
         <mandatory>1</mandatory>
         <data-type>varchar(20)</data-type>
       </column>
-      <key id="9" parent="2" name="PRIMARY">
+      <key id="10" parent="2" name="PRIMARY">
         <columns>book_id</columns>
         <primary>1</primary>
       </key>
-      <column id="10" parent="3" name="people_id">
+      <column id="11" parent="3" name="people_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="11" parent="3" name="firstname">
+      <column id="12" parent="3" name="firstname">
         <mandatory>1</mandatory>
         <data-type>varchar(20)</data-type>
       </column>
-      <column id="12" parent="3" name="lastname">
+      <column id="13" parent="3" name="lastname">
         <mandatory>1</mandatory>
         <data-type>varchar(20)</data-type>
       </column>
-      <key id="13" parent="3" name="PRIMARY">
+      <key id="14" parent="3" name="PRIMARY">
+        <columns>people_id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="15" parent="4" name="people_id">
+        <mandatory>1</mandatory>
+        <data-type>varchar(20)</data-type>
+      </column>
+      <column id="16" parent="4" name="username">
+        <mandatory>1</mandatory>
+        <data-type>varchar(20)</data-type>
+      </column>
+      <column id="17" parent="4" name="password">
+        <mandatory>1</mandatory>
+        <data-type>varchar(20)</data-type>
+      </column>
+      <key id="18" parent="4" name="PRIMARY">
         <columns>people_id</columns>
         <primary>1</primary>
       </key>
