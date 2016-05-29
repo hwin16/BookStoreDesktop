@@ -16,7 +16,7 @@ public class Menu {
 
     // horizontal line
     private static void printlnHorizontal() {
-        for (int i = 0; i < 100; i++){
+        for (int i = 0; i < 130; i++){
             System.out.print("-");
         }
         System.out.println();
@@ -154,7 +154,6 @@ public class Menu {
             printlnHorizontal();
         }
         printlnHorizontal();
-        // close the bufferedreader
         reader.close();
     }
 

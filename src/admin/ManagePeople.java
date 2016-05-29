@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ManagePeople {
     private static SessionFactory factory;
-
+    /**
     public static void main(String[] args){
         factory = new Configuration().configure().buildSessionFactory();
         ManagePeople bookstore = new ManagePeople();
@@ -24,6 +24,7 @@ public class ManagePeople {
         //bookstore.deletePeople(p1);
         //bookstore.listPeople();
     }
+     */
 
     public Integer addPeople(String firstname, String lastname){
         Session session = factory.openSession();
