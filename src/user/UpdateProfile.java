@@ -1,6 +1,7 @@
 package user;
 
 import datamodels.People;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -10,8 +11,9 @@ import org.hibernate.cfg.Configuration;
  * Created by sudo on 5/27/16.
  */
 public class UpdateProfile {
-    public UpdateProfile() {}
     private SessionFactory factory = new Configuration().configure().buildSessionFactory();
+
+    public UpdateProfile() {}
 
     public void showCurrentProfile(long people_id) {
         Session session = factory.openSession();
@@ -32,6 +34,26 @@ public class UpdateProfile {
         else {
             System.out.println("We don't have your user profile.");
         }
+        t.commit();
+        session.close();
+    }
+
+    public void updateData(String field, String value, long people_id){
+        Session session = factory.openSession();
+        Transaction t = session.beginTransaction();
+        Query query;
+        if (field == "birthdate") {
+            query = session.createQuery("update People set birthdate = str_to_date(:value, '%m-%d-%y') where people_id = :people_id")
+                    .setParameter("value", value)
+                    .setParameter("people_id", people_id);
+        }
+        else {
+            query = session.createQuery("update People set " + field + " = :value where people_id = :people_id")
+                    .setParameter("value", value)
+                    .setParameter("people_id", people_id);
+        }
+        int num = query.executeUpdate();
+        t.commit();
         session.close();
     }
 }

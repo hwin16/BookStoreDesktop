@@ -88,7 +88,6 @@ public class Menu {
         session.close();
 
         printlnHorizontal();
-        // Menu
         mainmenu(); 
 
         System.out.print("Please type the number: "); 
@@ -98,10 +97,19 @@ public class Menu {
             if (choices == 1){
                 UpdateProfile up = new UpdateProfile();
                 up.showCurrentProfile(getId(username, password));
+                System.out.print("Please type the field you want to update(firstname, birthdate, etc): ");
+                String field = reader.readLine();
+                System.out.print("Please type in the updated value(birthdate=> YYYY-MM-DD): ");
+                String value = reader.readLine();
+                up.updateData(field, value, getId(username, password));
+                up.showCurrentProfile(getId(username, password));
             }
             else if (choices == 2){
                 ExploreLibrary el = new ExploreLibrary();
                 el.listAllBooks();
+                System.out.print("Search for a book by Title: " );
+                String title = reader.readLine();
+                el.searchBooks(title);
             }
             else if (choices == 3) {
                 bookmenu();

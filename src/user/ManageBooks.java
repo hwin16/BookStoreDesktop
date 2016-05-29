@@ -70,7 +70,7 @@ public class ManageBooks {
         }
     }
 
-    private void tabularlistBooks(List books){
+    private void tabularlistBooks(List<Book> books){
         System.out.format("+%40s+%20s+%20s+\n", "-", "-", "-");
         System.out.format("|%40s|%20s|%20s|\n", "Title", "Edition", "Author");
         System.out.format("+%40s+%20s+%20s+\n", "-", "-", "-");
