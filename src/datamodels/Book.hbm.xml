@@ -8,12 +8,23 @@
         <meta attribute="class-description">
             This class represents the Book information.
         </meta>
-        <id name="book_id" type="int" column="book_id">
+        <id name="book_id" type="long" column="book_id">
             <generator class="native"/>
         </id>
         <property name="title" column="title" type="string"/>
+        <property name="isbn10" column="isbn10" type="string"/>
+        <property name="isbn13" column="isbn13" type="string"/>
         <property name="edition" column="edition" type="string"/>
-        <property name="author" column="author" type="string"/>
-        <property name="owner" column="owner" type="string"/>
+        <property name="author1" column="author1" type="string"/>
+        <property name="author2" column="author2" type="string"/>
+        <property name="author3" column="author3" type="string"/>
+        <property name="author4" column="author4" type="string"/>
+        <property name="author5" column="author5" type="string"/>
+        <property name="author6" column="author6" type="string"/>
+        <property name="create_datetime" column="create_datetime" type="string"/>
+        <property name="create_user" column="create_user" type="string"/>
+        <property name="modify_datetime" column="modify_datetime" type="string"/>
+        <property name="modify_user" column="modify_user" type="string"/>
+        <property name="owner_id" column="owner_id" type="long"/>
     </class>
 </hibernate-mapping>

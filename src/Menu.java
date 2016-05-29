@@ -1,13 +1,16 @@
+import datamodels.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import user.ExploreLibrary;
 import user.ManageBooks;
+import user.UpdateProfile;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader; 
-import java.io.IOException; 
+import java.io.IOException;
+
 public class Menu {
     private static SessionFactory factory = new Configuration().configure().buildSessionFactory();
 
@@ -44,6 +47,15 @@ public class Menu {
         System.out.println("2. Search for a book");
     }
 
+    private static long getId(String username, String password) {
+        Session session = factory.openSession();
+        long id = (long)session.createQuery("Select people_id from User where username = :username and password = :password")
+                  .setParameter("username", username)
+                  .setParameter("password", password).uniqueResult();
+        session.close();
+        return id;
+    }
+
     public static void main(String[] args) throws IOException{
         System.out.println("Welcome to BookStore!!!");
 
@@ -60,6 +72,21 @@ public class Menu {
         password = reader.readLine();  
         System.out.println(); 
 
+        // username password authentication
+        Session session = factory.openSession();
+        Transaction t = session.beginTransaction();
+        User user = (User) session.createQuery("FROM User WHERE username = :username and password = :password")
+                    .setParameter("username", username)
+                    .setParameter("password", password).uniqueResult();
+        if (user != null && user.getUsername().equals(username) && user.getPassword().equals(password)) {
+            System.out.println("Authentication successful.");
+        }
+        else {
+            System.out.println("Incorrect username or password");
+            System.exit(-1);
+        }
+        session.close();
+
         printlnHorizontal();
         // Menu
         mainmenu(); 
@@ -68,7 +95,11 @@ public class Menu {
         int choices = Integer.parseInt(reader.readLine());
         printlnHorizontal();
         while (choices != 4) {
-            if (choices == 2){
+            if (choices == 1){
+                UpdateProfile up = new UpdateProfile();
+                up.showCurrentProfile(getId(username, password));
+            }
+            else if (choices == 2){
                 ExploreLibrary el = new ExploreLibrary();
                 el.listAllBooks();
             }
@@ -96,13 +127,13 @@ public class Menu {
                 } else if (bchoice == 3) {
                     String title = reader.readLine();
 
-                    Session session = factory.openSession();
-                    Transaction t = null;
-                    t = session.beginTransaction();
+                    Session ses = factory.openSession();
+                    Transaction trans = ses.beginTransaction();
                     int book_id = (int) session.createQuery("select book_id from Book where owner = :username and title like :title")
                             .setString("username", username)
                             .setString("title", title).uniqueResult();
                     mb.deleteBooks(book_id);
+                    ses.close();
                 } else {
                     mb.listBooks(username);
                 }

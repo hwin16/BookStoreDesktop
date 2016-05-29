@@ -8,10 +8,22 @@
         <meta attribute="class-description">
             This class represents the people information.
         </meta>
-        <id name="people_id" type="int" column="people_id">
+        <id name="people_id" type="long" column="people_id">
             <generator class="native"/>
         </id>
         <property name="firstname" column="firstname" type="string"/>
+        <property name="middlename" column="middlename" type="string"/>
         <property name="lastname" column="lastname" type="string"/>
+        <property name="birthdate" column="birthdate" type="string"/>
+        <property name="addressline1" column="addressline1" type="string"/>
+        <property name="addressline2" column="addressline2" type="string"/>
+        <property name="addressline3" column="addressline3" type="string"/>
+        <property name="city" column="city" type="string"/>
+        <property name="zip" column="zip" type="string"/>
+        <property name="state" column="state" type="string"/>
+        <property name="create_datetime" column="create_datetime" type="string"/>
+        <property name="create_user" column="create_user" type="string"/>
+        <property name="modify_datetime" column="modify_datetime" type="string"/>
+        <property name="modify_user" column="modify_user" type="string"/>
     </class>
 </hibernate-mapping>

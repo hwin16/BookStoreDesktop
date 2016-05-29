@@ -25,6 +25,7 @@
 
         <mapping resource="datamodels/People.hbm.xml"/>
         <mapping resource="datamodels/Book.hbm.xml"/>
+        <mapping resource="datamodels/User.hbm.xml"/>
 
     </session-factory>
 </hibernate-configuration>

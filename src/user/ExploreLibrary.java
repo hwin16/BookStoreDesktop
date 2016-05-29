@@ -28,7 +28,7 @@ public class ExploreLibrary {
         for (Book book : books) {
             System.out.print(book.getTitle() + " ");
             System.out.print(book.getEdition() + " ");
-            System.out.print(book.getAuthor());
+            System.out.print(book.getAuthor1());
             System.out.println();
         }
     }

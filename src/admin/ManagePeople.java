@@ -30,7 +30,7 @@ public class ManagePeople {
         Transaction t = null;
         Integer pId = null;
         t = session.beginTransaction();
-        People people = new People(firstname, lastname);
+        People people = new People();
         pId = (Integer) session.save(people);
         t.commit();
         session.close();

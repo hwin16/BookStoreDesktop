@@ -19,7 +19,7 @@ public class ManageBooks {
         Integer book_id = null;
         try {
             t = session.beginTransaction();
-            Book book = new Book(title, edition, author, username);
+            Book book = new Book();
             book_id = (Integer) session.save(book);
             t.commit();
         } catch (HibernateException e) {
@@ -40,7 +40,7 @@ public class ManageBooks {
             t = session.beginTransaction();
             Book book = (Book) session.get(Book.class, book_id);
             book.setTitle(title);
-            book.setAuthor(author);
+            book.setAuthor1(author);
             book.setTitle(title);
             book.setEdition(edition);
             session.update(book);
@@ -76,7 +76,7 @@ public class ManageBooks {
         System.out.format("+%40s+%20s+%20s+\n", "-", "-", "-");
         for (Iterator i = books.iterator(); i.hasNext();){
             Book book = (Book) i.next();
-            System.out.format("|%40s|%20s|%20s|\n", book.getTitle(), book.getEdition(), book.getAuthor());
+            System.out.format("|%40s|%20s|%20s|\n", book.getTitle(), book.getEdition(), book.getAuthor1());
         }
         System.out.format("+%40s+%20s+%20s+", "-", "-", "-");
     }
