@@ -29,7 +29,7 @@ public class UpdateProfile {
             System.out.println("7. AddressLine3: " + user.getAddressline3());
             System.out.println("8. City: " + user.getCity());
             System.out.println("9. Zip: " + user.getZip());
-            System.out.println("10. State: " + user.getZip());
+            System.out.println("10. State: " + user.getState());
         }
         else {
             System.out.println("We don't have your user profile.");

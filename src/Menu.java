@@ -85,7 +85,7 @@ public class Menu {
             System.out.println("Incorrect username or password");
             System.exit(-1);
         }
-        session.close();
+        t.commit();
 
         printlnHorizontal();
         mainmenu(); 
@@ -122,9 +122,7 @@ public class Menu {
                     title = reader.readLine();
                     System.out.print("Edition: ");
                     edition = reader.readLine();
-                    System.out.print("Author: ");
-                    author = reader.readLine();
-                    mb.addBooks(title, edition, author, username);
+                    mb.addBooks(title, edition, getId(username, password));
                 } else if (bchoice == 2) {
                     updatemenu();
                     System.out.print("Please type the number: ");
@@ -133,15 +131,15 @@ public class Menu {
 
                     }
                 } else if (bchoice == 3) {
+                    System.out.print("Please type the title: ");
                     String title = reader.readLine();
+                    Transaction trans = session.beginTransaction();
+                    long book_id = (long) session.createQuery("select book_id from Book where owner_id = :username and title like :title")
+                            .setParameter("username", getId(username, password))
+                            .setParameter("title", "%" + title + "%").uniqueResult();
 
-                    Session ses = factory.openSession();
-                    Transaction trans = ses.beginTransaction();
-                    int book_id = (int) session.createQuery("select book_id from Book where owner = :username and title like :title")
-                            .setString("username", username)
-                            .setString("title", title).uniqueResult();
                     mb.deleteBooks(book_id);
-                    ses.close();
+                    trans.commit();
                 } else {
                     mb.listBooks(username);
                 }
@@ -153,6 +151,7 @@ public class Menu {
             choices = Integer.parseInt(reader.readLine());
             printlnHorizontal();
         }
+        session.close();
         printlnHorizontal();
         reader.close();
     }

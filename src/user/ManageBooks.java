@@ -4,6 +4,9 @@ import datamodels.Book;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,22 +16,23 @@ public class ManageBooks {
     public ManageBooks() {}
 
     // add books
-    public Integer addBooks(String title, String edition, String author, String username) {
+    public void addBooks(String title, String edition, long owner_id) {
         Session session = factory.openSession();
-        Transaction t = null;
-        Integer book_id = null;
-        try {
-            t = session.beginTransaction();
-            Book book = new Book();
-            book_id = (Integer) session.save(book);
-            t.commit();
-        } catch (HibernateException e) {
-            if (t != null) t.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return book_id;
+        Transaction t = session.beginTransaction();
+        Long book_id = null;
+        Book book = new Book();
+        book.setTitle(title);
+        book.setEdition(edition);
+
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        book.setCreate_datetime(df.format(date));
+
+        book.setModify_datetime(df.format(date));
+        book.setOwner_id(owner_id);
+        book_id = (Long)session.save(book);
+        t.commit();
+        session.close();
     }
 
     // update books
@@ -54,7 +58,7 @@ public class ManageBooks {
     }
 
     // delete books
-    public void deleteBooks(Integer book_id) {
+    public void deleteBooks(Long book_id) {
         Session session = factory.openSession();
         Transaction t = null;
         try {
