@@ -98,6 +98,7 @@ public class Menu {
 
         // userID
         long id = getId(username, password);
+        
         // menu options
         while (choices != 4) {
             if (choices == 1){
