@@ -23,7 +23,7 @@ public class ExploreLibrary {
         session.close();
     }
 
-    private void tabularBooks(List<Book> books) {
+    public void tabularBooks(List<Book> books) {
         // very very ugly. sorry about that.
         System.out.printf("+--+------------------------------+----------+-------------+-------+--------------------+----" +
                 "----------------+\n");
@@ -31,7 +31,7 @@ public class ExploreLibrary {
                           "Author1", "Author2");
         System.out.printf("+--+------------------------------+----------+-------------+-------+--------------------+----" +
                 "----------------+\n");
-        int i = 0;
+        int i = 1;
         for (Book book : books) {
             System.out.printf("|%-2s|%-30s|%-10s|%-13s|%-7s|%-20s|%-20s|\n", i, book.getTitle(), book.getIsbn10(),
                     book.getIsbn13(),

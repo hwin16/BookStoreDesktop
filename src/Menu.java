@@ -36,12 +36,6 @@ public class Menu {
         System.out.println("4. Show my bookstore");
     }
 
-    public static void updatemenu() {
-        System.out.println("1. Change title");
-        System.out.println("2. Change edition");
-        System.out.println("3. Change author");
-    }
-
     public static void exploremenu() {
         System.out.println("1. Show all books");
         System.out.println("2. Search for a book");
@@ -102,17 +96,19 @@ public class Menu {
         }
         printlnHorizontal();
 
+        // userID
+        long id = getId(username, password);
         // menu options
         while (choices != 4) {
             if (choices == 1){
                 UpdateProfile up = new UpdateProfile();
-                up.showCurrentProfile(getId(username, password));
+                up.showCurrentProfile(id);
                 System.out.print("Please type the field you want to update(firstname, birthdate, etc): ");
                 String field = reader.readLine();
                 System.out.print("Please type in the updated value(birthdate=> YYYY-MM-DD): ");
                 String value = reader.readLine();
                 up.updateData(field, value, getId(username, password));
-                up.showCurrentProfile(getId(username, password));
+                up.showCurrentProfile(id);
             }
             else if (choices == 2){
                 ExploreLibrary el = new ExploreLibrary();
@@ -132,15 +128,26 @@ public class Menu {
                     title = reader.readLine();
                     System.out.print("Edition: ");
                     edition = reader.readLine();
-                    mb.addBooks(title, edition, getId(username, password));
+                    mb.addBooks(title, edition, id);
                 } else if (bchoice == 2) {
-                    updatemenu();
-                    System.out.print("Please type the number: ");
-                    int ubook = Integer.parseInt(reader.readLine());
-                    if (ubook == 1) {
+                    mb.listBooks(id);
 
-                    }
+                    // menu options
+                    System.out.print("Please type the title of the book you want to update: ");
+                    String title = reader.readLine();
+                    System.out.print("Please type the field you want to update(title, edition, etc): ");
+                    String field = reader.readLine();
+                    System.out.print("Please type in the updated value: ");
+                    String value = reader.readLine();
+
+                    // get book_id
+                    long book_id = (long) session.createQuery("select book_id from Book where title = :title and owner_id = :id")
+                                    .setParameter("title", title)
+                                    .setParameter("id", id).uniqueResult();
+                    mb.updateBook(book_id, field, value, id);
+                    mb.listBooks(id);
                 } else if (bchoice == 3) {
+                    mb.listBooks(id);
                     System.out.print("Please type the title: ");
                     String title = reader.readLine();
                     Transaction trans = session.beginTransaction();
@@ -148,10 +155,10 @@ public class Menu {
                             .setParameter("username", getId(username, password))
                             .setParameter("title", "%" + title + "%").uniqueResult();
 
-                    mb.deleteBooks(book_id, getId(username, password));
+                    mb.deleteBooks(book_id, id);
                     trans.commit();
                 } else {
-                    mb.listBooks(getId(username, password));
+                    mb.listBooks(id);
                 }
             }
             printlnHorizontal();

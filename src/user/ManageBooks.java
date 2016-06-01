@@ -36,33 +36,24 @@ public class ManageBooks {
     }
 
     // update books
-    // I want to change book name, price, edition
-    public void updateBooks(Integer book_id, String title, String edition, String author){
+    // I need book_id
+    public void updateBook(long book_id, String field, String value, long people_id){
         Session session = factory.openSession();
-        Transaction t = null;
-        try {
-            t = session.beginTransaction();
-            Book book = (Book) session.get(Book.class, book_id);
-            book.setTitle(title);
-            book.setAuthor1(author);
-            book.setTitle(title);
-            book.setEdition(edition);
-            session.update(book);
-            t.commit();
-        } catch (HibernateException e){
-            if (t != null) t.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
+        Transaction t = session.beginTransaction();
+        Query query = session.createQuery("update Book set " + field + " = :value where owner_id = :people_id and book_id = :book_id")
+                    .setParameter("book_id", book_id)
+                    .setParameter("value", value)
+                    .setParameter("people_id", people_id);
+
+        int num = query.executeUpdate();
+        t.commit();
+        session.close();
     }
 
     // delete books
     public void deleteBooks(Long book_id, long owner_id) {
         Session session = factory.openSession();
         Transaction t = null;
-        ManageBooks mb = new ManageBooks();
-        mb.listBooks(owner_id);
         try {
             t = session.beginTransaction();
             Book book = (Book) session.get(Book.class, book_id);
@@ -76,17 +67,6 @@ public class ManageBooks {
         }
     }
 
-    private void tabularlistBooks(List<Book> books){
-        System.out.format("+%40s+%20s+%20s+\n", "-", "-", "-");
-        System.out.format("|%40s|%20s|%20s|\n", "Title", "Edition", "Author");
-        System.out.format("+%40s+%20s+%20s+\n", "-", "-", "-");
-        for (Iterator i = books.iterator(); i.hasNext();){
-            Book book = (Book) i.next();
-            System.out.format("|%40s|%20s|%20s|\n", book.getTitle(), book.getEdition(), book.getAuthor1());
-        }
-        System.out.format("+%40s+%20s+%20s+", "-", "-", "-");
-    }
-
     // list all of my books
     public void listBooks(long owner_id) {
         Session session = factory.openSession();
@@ -94,7 +74,8 @@ public class ManageBooks {
         try {
             t = session.beginTransaction();
             List books = session.createQuery("FROM Book where owner_id = :owner").setParameter("owner", owner_id).list();
-            tabularlistBooks(books);
+            ExploreLibrary el = new ExploreLibrary();
+            el.tabularBooks(books);
             t.commit();
         } catch (HibernateException e) {
             if (t != null) t.rollback();
