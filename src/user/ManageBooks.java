@@ -58,9 +58,11 @@ public class ManageBooks {
     }
 
     // delete books
-    public void deleteBooks(Long book_id) {
+    public void deleteBooks(Long book_id, long owner_id) {
         Session session = factory.openSession();
         Transaction t = null;
+        ManageBooks mb = new ManageBooks();
+        mb.listBooks(owner_id);
         try {
             t = session.beginTransaction();
             Book book = (Book) session.get(Book.class, book_id);
@@ -86,12 +88,12 @@ public class ManageBooks {
     }
 
     // list all of my books
-    public void listBooks(String username) {
+    public void listBooks(long owner_id) {
         Session session = factory.openSession();
         Transaction t = null;
         try {
             t = session.beginTransaction();
-            List books = session.createQuery("FROM Book where owner = :owner").setParameter("owner", username).list();
+            List books = session.createQuery("FROM Book where owner_id = :owner").setParameter("owner", owner_id).list();
             tabularlistBooks(books);
             t.commit();
         } catch (HibernateException e) {

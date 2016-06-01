@@ -88,11 +88,21 @@ public class Menu {
         t.commit();
 
         printlnHorizontal();
-        mainmenu(); 
 
-        System.out.print("Please type the number: "); 
-        int choices = Integer.parseInt(reader.readLine());
+        // main menu set up
+        mainmenu();
+        System.out.print("Please type the number: ");
+        int choices = 0;
+        try {
+            choices = Integer.parseInt(reader.readLine());
+        }
+        catch (NumberFormatException e){
+            System.out.println("Not a valid option. Quitting bookstore!");
+            System.exit(0);
+        }
         printlnHorizontal();
+
+        // menu options
         while (choices != 4) {
             if (choices == 1){
                 UpdateProfile up = new UpdateProfile();
@@ -138,10 +148,10 @@ public class Menu {
                             .setParameter("username", getId(username, password))
                             .setParameter("title", "%" + title + "%").uniqueResult();
 
-                    mb.deleteBooks(book_id);
+                    mb.deleteBooks(book_id, getId(username, password));
                     trans.commit();
                 } else {
-                    mb.listBooks(username);
+                    mb.listBooks(getId(username, password));
                 }
             }
             printlnHorizontal();
@@ -154,6 +164,7 @@ public class Menu {
         session.close();
         printlnHorizontal();
         reader.close();
+        System.out.println("Thank you for using bookstore!");
     }
 
 }
