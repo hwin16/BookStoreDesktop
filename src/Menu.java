@@ -3,18 +3,23 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import java.io.BufferedReader;
+import java.io.InputStreamReader; 
+import java.io.IOException;
 import user.ExploreLibrary;
 import user.ManageBooks;
 import user.UpdateProfile;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader; 
-import java.io.IOException;
-
+/**
+ * Main class that manages the bookstore database.
+ * => has all the menus relating to various features of the program
+ * => link to GUI to provide users with easier access
+ */
 public class Menu {
+    //
     private static SessionFactory factory = new Configuration().configure().buildSessionFactory();
 
-    // horizontal line
+    // print horizontal line
     private static void printlnHorizontal() {
         for (int i = 0; i < 130; i++){
             System.out.print("-");
@@ -22,6 +27,7 @@ public class Menu {
         System.out.println();
     }
 
+    // main menu screen
     public static void mainmenu() {
         System.out.println("1. Update Profile");
         System.out.println("2. Explore book database");
@@ -29,6 +35,7 @@ public class Menu {
         System.out.println("4. Log out");
     }
 
+    // book menu screen
     public static void bookmenu() {
         System.out.println("1. Add a new book");
         System.out.println("2. Update an existing book");
@@ -36,11 +43,13 @@ public class Menu {
         System.out.println("4. Show my bookstore");
     }
 
+    // explore menu managed by ExploreLibrary
     public static void exploremenu() {
         System.out.println("1. Show all books");
         System.out.println("2. Search for a book");
     }
 
+    // helper method for getting the user id in the database
     private static long getId(String username, String password) {
         Session session = factory.openSession();
         long id = (long)session.createQuery("Select people_id from User where username = :username and password = :password")
@@ -50,6 +59,7 @@ public class Menu {
         return id;
     }
 
+    // main method
     public static void main(String[] args) throws IOException{
         System.out.println("Welcome to BookStore!!!");
 
@@ -98,7 +108,7 @@ public class Menu {
 
         // userID
         long id = getId(username, password);
-        
+
         // menu options
         while (choices != 4) {
             if (choices == 1){

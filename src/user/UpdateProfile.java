@@ -13,8 +13,11 @@ import org.hibernate.cfg.Configuration;
 public class UpdateProfile {
     private SessionFactory factory = new Configuration().configure().buildSessionFactory();
 
+    // empty constructor for update profile
     public UpdateProfile() {}
 
+    // show the current profile of the user
+    // param: unique people_id in the people table
     public void showCurrentProfile(long people_id) {
         Session session = factory.openSession();
         Transaction t = session.beginTransaction();
@@ -38,6 +41,7 @@ public class UpdateProfile {
         session.close();
     }
 
+    // update specified string for the user data
     public void updateData(String field, String value, long people_id){
         Session session = factory.openSession();
         Transaction t = session.beginTransaction();

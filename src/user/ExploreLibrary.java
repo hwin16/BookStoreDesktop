@@ -4,16 +4,22 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-
 import java.util.List;
-
 import datamodels.Book;
 
+/**
+ * Explore the whole library with search criteria
+ * => can display books in the area
+ * => can search for various books by name
+ */
 public class ExploreLibrary {
     private static SessionFactory factory = new Configuration().configure().buildSessionFactory();
 
+    // ExploreLibrary constructor
     public ExploreLibrary() {}
 
+    // list all the books in the database
+    // parameter called searchArea will be added to limit the search
     public void listAllBooks() {
         Session session = factory.openSession();
         Transaction t = session.beginTransaction();
@@ -23,6 +29,9 @@ public class ExploreLibrary {
         session.close();
     }
 
+    // list the books in tabular format
+    // ## made a quick fix to make it public so that it can be used in managebooks
+    // will create a new helper class to make this method modular and reusable
     public void tabularBooks(List<Book> books) {
         // very very ugly. sorry about that.
         System.out.printf("+--+------------------------------+----------+-------------+-------+--------------------+----" +
@@ -42,6 +51,8 @@ public class ExploreLibrary {
                 "-----------------+\n");
     }
 
+    // search books by its name
+    // TODO: make the parameter extendable list
     public void searchBooks(String query) {
         Session session = factory.openSession();
         Transaction t = session.beginTransaction();

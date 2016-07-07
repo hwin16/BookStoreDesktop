@@ -36,7 +36,6 @@ public class ManageBooks {
     }
 
     // update books
-    // I need book_id
     public void updateBook(long book_id, String field, String value, long people_id){
         Session session = factory.openSession();
         Transaction t = session.beginTransaction();
